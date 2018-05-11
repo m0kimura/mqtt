@@ -1,0 +1,10 @@
+#
+set daemon 120
+set logfile /var/log/monit.log
+
+check process mosquitto
+  with pidfile /run/mosquitto.pid
+  start program = "/bin/sh -l -c '/etc/init.d/mosquitto start'"
+  stop program = "/bin/sh -l -c '/etc/init.d/mosquitto stop'"
+
+  group mosquitto

@@ -1,0 +1,39 @@
+#!/bin/bash
+null=
+cmd=$1
+##
+#> wait トピック待ち合わせ [topic]
+#>    @param {String} $2 トピックID(省略値：Server)
+  if [[ ${cmd} = "wait" ]]; then
+    topic=$2
+    if [[ ${topic} = "$null" ]]; then
+      topic=Server
+    fi
+    mosquitto_sub -h localhost -t ${topic}
+##
+#> pub パブリッシュ topic message
+#>    @param {String} $2 トピックID
+#>    @param {String} $3 メッセージ
+  elif [[ ${cmd} = "pub" ]]; then
+    topic=$2
+    message=$3
+    mosquitto_pub -t ${topic} -m ${message}
+##
+#> start mosquittoサービスの開始
+  elif [[ ${cmd} = "start" ]]; then
+    sudo /etc/init.d/mosquitto start
+##
+#> stop mosquittoサービスの停止
+  elif [[ ${cmd} = "stop" ]]; then
+    sudo /etc/init.d/mosquitto stop
+##
+#> status mosquittoサービス状態の表示
+  elif [[ ${cmd} = "status" ]]; then
+    sudo /etc/init.d/mosquitto status
+##
+#> config サービスの設定
+  elif [[ ${cmd} = "xonfig" ]]; then
+    sudo sys-rc-conf
+  else
+    Helps lex
+  fi
